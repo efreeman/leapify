@@ -7,7 +7,7 @@
 	},
 	"BundleIdentifier": "leapify",
 	"BundleType": "Application",
-	"BundleVersion": "1.0.2",
+	"BundleVersion": "1.0.4",
 	"Dependencies": {
 		"api": "0.2.0"
 	},

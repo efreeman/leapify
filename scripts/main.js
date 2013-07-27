@@ -3,6 +3,10 @@
 var canvas = null;
 var ctx = null;
 
+var GREEN_FULL = "rgba(154, 200, 71, 1)";
+var GREEN_SEMI = "rgba(154, 200, 71, 0.7)";
+var GRAY = "rgba(0, 0, 0, 0.7)";
+
 $(document).ready(function() {
 	// Time between successive gestures
 	var GESTURE_COOLDOWN = 1000;
@@ -55,9 +59,9 @@ $(document).ready(function() {
 		
 		// Green if gesturing possible; gray otherwise.
 		if (now - lastGesture < GESTURE_COOLDOWN) {
-			ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+			ctx.fillStyle = GRAY;
 		} else {
-			ctx.fillStyle = "rgba(154, 200, 71, 1)";
+			ctx.fillStyle = GREEN_FULL;
 		}
 		
 		ctx.fillRect(-70, -35, 140, 30);
@@ -71,11 +75,11 @@ $(document).ready(function() {
 		}
 		
 		// Draw "table"
-		ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+		ctx.fillStyle = GRAY;
 		ctx.fillRect(-canvas.width/2, -5, canvas.width, 5);
 		
 		// Draw a circle for each finger
-		ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+		ctx.fillStyle = GRAY;
 		var pointablesMap = obj.pointablesMap;
 		for (var i in pointablesMap) {
 			var pointable = pointablesMap[i];
@@ -89,7 +93,7 @@ $(document).ready(function() {
 		}
 		
 		// Draw a circle for each hand
-		ctx.fillStyle = "rgba(154, 200, 71, 0.7)";
+		ctx.fillStyle = GREEN_SEMI;
 		var handMap = obj.handsMap;
 		for (var i in handMap) {
 			var pos = handMap[i].palmPosition;
@@ -103,7 +107,7 @@ $(document).ready(function() {
 	
 	// Update the text showing which song is playing
 	function updateNowPlaying(track) {
-		$("#nowPlaying").text(track);
+		$("#nowPlaying").html(track.toString());
 	}
 	
 	// Process a gesture update
