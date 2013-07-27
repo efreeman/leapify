@@ -10,6 +10,9 @@ $(document).ready(function() {
 	// Direction vector threshold
 	var GESTURE_THRESHOLD = 0.8;
 	
+	// Minimum speed for a swipe gesture
+	var SPEED_THRESHOLD = 500.0;
+	
 	// Get player model from Spotify
     var sp = getSpotifyApi();
     var models = sp.require('$api/models');
@@ -110,7 +113,7 @@ $(document).ready(function() {
 		if (now - lastGesture < GESTURE_COOLDOWN)
 			return;
 		
-		if (json['state'] == "stop" && json['type'] == "swipe") {
+		if (json['state'] == "stop" && json['type'] == "swipe" && json['speed'] >= SPEED_THRESHOLD) {
 			var absX = Math.abs(json['direction'][0]);
 			var absY = Math.abs(json['direction'][1]);
 			var absZ = Math.abs(json['direction'][2]);
