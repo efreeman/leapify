@@ -1,0 +1,25 @@
+{
+	"AppDescription": {
+		"en": "A Leap Motion controller for Spotify."
+	},
+	"AppName": {
+		"en": "Leapify"
+	},
+	"BundleIdentifier": "leapify",
+	"BundleType": "Application",
+	"BundleVersion": "1.0",
+	"Dependencies": {
+		"api": "0.2.0"
+	},
+	"RequiredPermissions": [
+	    "http://js.leapmotion.com",
+	    "http://code.jquery.com"
+	],
+	"SupportedDeviceClasses": [
+		"Desktop"
+	],
+	"SupportedLanguages": [
+		"en"
+	],
+	"VendorIdentifier": "uk.co.euanfreeman"
+}

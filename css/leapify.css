@@ -1,0 +1,42 @@
+html {
+	overflow: auto;
+}
+
+#titleWrapper {
+	padding: 20px;
+	margin-top: 60px;
+}
+
+#title, #titleLeap {
+	display: inline;
+	font: 400 70px/1.2 'Lato', Georgia, serif;
+}
+
+#titleLeap {
+	font-weight: 600;
+	color: #9ac847;
+}
+
+#leapify {
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+
+#hint {
+	padding: 10px;
+	padding-left: 20px;
+	font: 200 18px 'Lato', Georgia, serif;
+}
+
+#hint2 {
+	padding-left: 20px;
+	font: 200 14px 'Lato', Georgia, serif;
+}
+
+#nowPlaying {
+	padding: 20px;
+	margin-top: 10px;
+	font: 200 24px 'Lato', Georgia, serif;
+	background-color:rgba(154, 200, 71, 0.2);
+}
