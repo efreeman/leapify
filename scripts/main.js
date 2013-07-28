@@ -17,6 +17,9 @@ $(document).ready(function() {
 	// Minimum speed for a swipe gesture
 	var SPEED_THRESHOLD = 500.0;
 	
+	// Minimum distance for hands to "clap"
+	var CLAP_DISTANCE_THRESHOLD = 60.0;
+	
 	// Get player model from Spotify
     var sp = getSpotifyApi();
     var models = sp.require('$api/models');
@@ -32,11 +35,25 @@ $(document).ready(function() {
 	
 	// Request updates from the Leap controller
 	Leap.loop({enableGestures: true}, function(obj) {
-		// Process any gestures detected in this frame
-		if (obj.gestures.length > 0) {
-			obj.gestures.forEach(function(gesture) {
-				processGesture(gesture);
-			});
+		var now = new Date().getTime();
+		
+		if (now - lastGesture >= GESTURE_COOLDOWN) {
+			// Process any gestures detected in this frame
+			if (obj.hands.length == 1 && obj.gestures.length > 0) {
+				obj.gestures.forEach(function(gesture) {
+					processGesture(gesture);
+				});
+			} else if (obj.hands.length == 2) {
+				if (clapDetect(obj)) {
+					lastGesture = now;
+				
+					lastGestureName = "Shuffle";
+				
+					player.shuffle = true;
+					player.next();
+					player.shuffle = false;
+				}
+			}
 		}
 		
 		// Render hands
@@ -45,6 +62,25 @@ $(document).ready(function() {
 		// Update now playing text
 		updateNowPlaying(player.track);
 	});
+	
+	function clapDetect(frame) {
+		var hand1 = frame.hands[0];
+		var hand2 = frame.hands[1];
+		var pos1 = hand1.palmPosition;
+		var pos2 = hand2.palmPosition;
+		
+		var dist = distance(pos1, pos2);
+		
+		console.log(dist);
+		
+		return dist <= CLAP_DISTANCE_THRESHOLD;
+	}
+	
+	function distance(p1, p2) {
+		return Math.sqrt((p2[0] - p1[0]) * (p2[0] - p1[0]) +
+						(p2[1] - p1[1]) * (p2[1] - p1[1]) +
+						(p2[2] - p1[2]) * (p2[2] - p1[2]))
+	}
 	
 	// Render the user's hands and show position relative to the Leap
 	function draw(obj) {
@@ -112,11 +148,6 @@ $(document).ready(function() {
 	
 	// Process a gesture update
 	function processGesture(json) {
-		var now = new Date().getTime();
-		
-		if (now - lastGesture < GESTURE_COOLDOWN)
-			return;
-		
 		if (json['state'] == "stop" && json['type'] == "swipe" && json['speed'] >= SPEED_THRESHOLD) {
 			var absX = Math.abs(json['direction'][0]);
 			var absY = Math.abs(json['direction'][1]);
@@ -173,7 +204,7 @@ $(document).ready(function() {
 			}
 			
 			if (gestured)
-				lastGesture = now;
+				lastGesture = new Date().getTime();
 		}
 	};
 });
