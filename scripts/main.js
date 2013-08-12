@@ -71,8 +71,6 @@ $(document).ready(function() {
 		
 		var dist = distance(pos1, pos2);
 		
-		console.log(dist);
-		
 		return dist <= CLAP_DISTANCE_THRESHOLD;
 	}
 	
